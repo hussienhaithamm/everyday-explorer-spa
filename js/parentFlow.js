@@ -16,6 +16,7 @@ function initParentFlow() {
   const volumeValue = document.getElementById("volume-value");
   const levelWarning = document.getElementById("level-warning");
   const stickerWarning = document.getElementById("sticker-warning");
+  const resetBtn = document.getElementById("btn-reset-demo");
 
   settingsHome.addEventListener("click", () => showScreen("home-screen"));
   dashboardBack.addEventListener("click", () => showScreen("settings-screen"));
@@ -46,6 +47,15 @@ function initParentFlow() {
 
   volume.addEventListener("input", () => {
     volumeValue.textContent = volume.value;
+  });
+
+  resetBtn.addEventListener("click", () => {
+    resetStateToDefaults();
+    renderLevels();
+    renderStickers();
+    renderDashboard();
+    renderChallenge();
+    showScreen("home-screen");
   });
 
   document.getElementById("form-create-level").addEventListener("submit", (e) => {

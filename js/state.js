@@ -20,6 +20,12 @@ const state =
 
 let sessionProgress = false;
 
+function cloneDefaults() {
+  return typeof structuredClone === "function"
+    ? structuredClone(defaultState)
+    : JSON.parse(JSON.stringify(defaultState));
+}
+
 function loadState() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (raw) {
@@ -40,6 +46,15 @@ function loadState() {
     }
   }
   sessionProgress = false;
+}
+
+// Clears localStorage and resets in-memory state to defaults.
+function resetStateToDefaults() {
+  localStorage.removeItem(STORAGE_KEY);
+  const fresh = cloneDefaults();
+  Object.assign(state, fresh);
+  sessionProgress = false;
+  saveState();
 }
 
 function saveState() {
