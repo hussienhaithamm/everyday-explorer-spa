@@ -20,7 +20,7 @@
           <p class="eyebrow">Hello, Celia!</p>
           <h1>Everyday Explorer</h1>
           <p class="subtitle">Find colors, shapes, and little treasures around you.</p>
-          <div class="home-actions">
+          <nav class="home-actions" aria-label="Home actions">
             <button id="btn-start-exploring" class="btn btn-primary btn-big">
               <span aria-hidden="true">🚀</span> Start Exploring
             </button>
@@ -30,7 +30,7 @@
             <button id="btn-settings" class="btn btn-ghost btn-big">
               <span aria-hidden="true">⚙️</span> Settings (Parent)
             </button>
-          </div>
+          </nav>
         </div>
         <div class="home-illustration" aria-hidden="true">
           <div class="bubble bubble-1"></div>
@@ -46,16 +46,16 @@
 
     <!-- Levels -->
     <section id="levels-screen" class="screen hidden">
-      <header class="topbar">
+      <header class="topbar" aria-label="Level navigation">
         <button id="btn-levels-home" class="icon-btn" aria-label="Back to home">← Home</button>
         <h2>Choose a Level</h2>
       </header>
-      <div id="levels-list" class="levels-grid"></div>
+      <div id="levels-list" class="levels-grid" role="list" aria-label="Available levels"></div>
     </section>
 
     <!-- Challenge -->
     <section id="challenge-screen" class="screen hidden">
-      <header class="topbar">
+      <header class="topbar" aria-label="Challenge navigation">
         <button id="btn-challenge-home" class="icon-btn" aria-label="Back to home">← Home</button>
         <div class="progress-bar">
           <div id="challenge-progress-bar" class="progress-fill" style="width:0%;"></div>
@@ -74,7 +74,7 @@
 
     <!-- Camera -->
     <section id="camera-screen" class="screen hidden">
-      <header class="topbar">
+      <header class="topbar" aria-label="Camera navigation">
         <button id="btn-camera-back" class="icon-btn" aria-label="Back to challenge">← Back</button>
         <button id="btn-camera-home" class="icon-btn" aria-label="Back to home">🏠 Home</button>
         <h2>Mock Camera</h2>
@@ -102,7 +102,7 @@
 
     <!-- Stickers -->
     <section id="stickers-screen" class="screen hidden">
-      <header class="topbar">
+      <header class="topbar" aria-label="Celebration navigation">
         <button id="btn-stickers-home" class="icon-btn" aria-label="Back to home">← Home</button>
         <h2>My Stickers</h2>
       </header>
@@ -111,7 +111,7 @@
 
     <!-- Settings -->
     <section id="settings-screen" class="screen hidden">
-      <header class="topbar">
+      <header class="topbar" aria-label="Settings navigation">
         <button id="btn-settings-home" class="icon-btn" aria-label="Back to home">← Home</button>
         <h2>Parent Settings</h2>
       </header>
@@ -130,7 +130,7 @@
 
     <!-- Parent dashboard -->
     <section id="parent-dashboard-screen" class="screen hidden">
-      <header class="topbar">
+      <header class="topbar" aria-label="Dashboard navigation">
         <button id="btn-dashboard-back" class="icon-btn" aria-label="Back to settings">← Back</button>
         <button id="btn-dashboard-home" class="icon-btn" aria-label="Back to home">🏠 Home</button>
         <h2>Parent Dashboard</h2>
@@ -161,7 +161,7 @@
 
     <!-- Create level -->
     <section id="create-level-screen" class="screen hidden">
-      <header class="topbar">
+      <header class="topbar" aria-label="Create level navigation">
         <button id="btn-level-back" class="icon-btn" aria-label="Back to settings">← Back</button>
         <button id="btn-level-home" class="icon-btn" aria-label="Back to home">🏠 Home</button>
         <h2>Create Level</h2>
@@ -190,7 +190,7 @@
 
     <!-- Create sticker -->
     <section id="create-sticker-screen" class="screen hidden">
-      <header class="topbar">
+      <header class="topbar" aria-label="Create sticker navigation">
         <button id="btn-sticker-back" class="icon-btn" aria-label="Back to settings">← Back</button>
         <button id="btn-sticker-home" class="icon-btn" aria-label="Back to home">🏠 Home</button>
         <h2>Create Sticker</h2>

@@ -18,6 +18,8 @@ function initParentFlow() {
   const stickerWarning = document.getElementById("sticker-warning");
   const resetBtn = document.getElementById("btn-reset-demo");
 
+  if (!settingsHome || !dashboardBtn || !createLevelBtn || !createStickerBtn) return;
+
   settingsHome.addEventListener("click", () => showScreen("home-screen"));
   dashboardBack.addEventListener("click", () => showScreen("settings-screen"));
   dashboardHome.addEventListener("click", () => showScreen("home-screen"));

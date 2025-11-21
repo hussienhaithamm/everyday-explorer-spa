@@ -1,10 +1,11 @@
-// Screen visibility helper.
+// Screen visibility helper that toggles .hidden across all sections.
 function showScreen(id) {
   document.querySelectorAll(".screen").forEach((el) => el.classList.add("hidden"));
   const target = document.getElementById(id);
   if (target) target.classList.remove("hidden");
 }
 
+// Renders the levels grid, dimming locked items.
 function renderLevels() {
   const container = document.getElementById("levels-list");
   if (!container) return;
@@ -13,8 +14,9 @@ function renderLevels() {
   const levels = getAllLevels();
   levels.forEach((level) => {
     const unlocked = state.unlockedLevels.includes(level.id);
+    const totalChallenges = Array.isArray(level.challenges) ? level.challenges.length : 0;
     const completedCount = state.completedChallenges[level.id] || 0;
-    const done = completedCount >= level.challenges.length;
+    const done = totalChallenges > 0 && completedCount >= totalChallenges;
 
     const card = document.createElement("div");
     card.className = "level-card card " + (unlocked ? "" : "locked");
@@ -25,7 +27,7 @@ function renderLevels() {
 
     const desc = document.createElement("p");
     desc.className = "muted";
-    desc.textContent = done ? "Completed!" : `${completedCount}/${level.challenges.length} done`;
+    desc.textContent = done ? "Completed!" : `${completedCount}/${Math.max(totalChallenges, 1)} done`;
 
     const badge = document.createElement("span");
     badge.className = "badge";
@@ -46,6 +48,7 @@ function renderLevels() {
   });
 }
 
+// Renders the active challenge details and progress bar.
 function renderChallenge() {
   const level = getLevelById(state.currentLevelId);
   const nameEl = document.getElementById("challenge-level-name");
@@ -53,12 +56,19 @@ function renderChallenge() {
   const progressEl = document.getElementById("challenge-progress");
   const bar = document.getElementById("challenge-progress-bar");
 
-  if (!level) return;
+  if (!level) {
+    if (nameEl) nameEl.textContent = "Pick a level to start";
+    if (promptEl) promptEl.textContent = "No level selected";
+    if (progressEl) progressEl.textContent = "0 / 0";
+    if (bar) bar.style.width = "0%";
+    return;
+  }
 
   const completed = state.completedChallenges[level.id] || 0;
   const total = level.challenges.length;
-  const currentIndex = Math.min(state.currentChallengeIndex, total - 1);
-  const current = level.challenges[currentIndex];
+  const safeTotal = Math.max(total, 1);
+  const currentIndex = Math.min(Math.max(state.currentChallengeIndex, 0), safeTotal - 1);
+  const current = level.challenges[currentIndex] || { prompt: "Challenge coming soon" };
 
   nameEl.textContent = level.name;
   if (completed >= total) {
@@ -66,10 +76,12 @@ function renderChallenge() {
   } else {
     promptEl.textContent = current.prompt;
   }
-  progressEl.textContent = `${Math.min(completed + 1, total)} / ${total}`;
-  bar.style.width = `${Math.round((completed / total) * 100)}%`;
+  progressEl.textContent = `${Math.min(completed + 1, safeTotal)} / ${safeTotal}`;
+  const denom = total > 0 ? total : 1;
+  bar.style.width = `${Math.round((completed / denom) * 100)}%`;
 }
 
+// Renders sticker grid, adding unlock highlight once.
 function renderStickers() {
   const grid = document.getElementById("stickers-grid");
   if (!grid) return;
@@ -96,6 +108,7 @@ function renderStickers() {
   }
 }
 
+// Renders dashboard stats, bar chart, and activity feed.
 function renderDashboard() {
   const totalChallengesEl = document.getElementById("dash-total-challenges");
   const levelsCompletedEl = document.getElementById("dash-levels-completed");
@@ -104,7 +117,7 @@ function renderDashboard() {
   const activity = document.getElementById("recent-activity");
 
   const levels = getAllLevels();
-  const totalCompleted = Object.values(state.completedChallenges).reduce((a, b) => a + b, 0);
+  const totalCompleted = Object.values(state.completedChallenges || {}).reduce((a, b) => a + b, 0);
   const completedLevels = getLevelsCompletedCount();
 
   if (totalChallengesEl) totalChallengesEl.textContent = totalCompleted;
@@ -143,7 +156,7 @@ function renderDashboard() {
 }
 
 // Updates celebration copy and sticker hint.
-function updateCelebrationText(result) {
+function updateCelebrationText(result = {}) {
   const title = document.getElementById("celebration-title");
   const detail = document.getElementById("celebration-detail");
   const sticker = document.getElementById("celebration-sticker");

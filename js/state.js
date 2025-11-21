@@ -20,12 +20,14 @@ const state =
 
 let sessionProgress = false;
 
+// Returns a fresh copy of defaults to avoid shared references.
 function cloneDefaults() {
   return typeof structuredClone === "function"
     ? structuredClone(defaultState)
     : JSON.parse(JSON.stringify(defaultState));
 }
 
+// Reads persisted state from localStorage, merging with defaults safely.
 function loadState() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (raw) {
@@ -57,31 +59,39 @@ function resetStateToDefaults() {
   saveState();
 }
 
+// Writes current state to localStorage.
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
+// Returns all base + custom levels as one array.
 function getAllLevels() {
   return [...LEVELS, ...state.customLevels];
 }
 
+// Looks up a level by ID across defaults and custom entries.
 function getLevelById(id) {
   return getAllLevels().find((lvl) => Number(lvl.id) === Number(id));
 }
 
+// Sets the current level and clamps challenge index; returns false if missing.
 function setCurrentLevel(levelId) {
   state.currentLevelId = Number(levelId);
-  const completed = state.completedChallenges[levelId] || 0;
   const level = getLevelById(levelId);
-  if (level) {
-    state.currentChallengeIndex = Math.min(
-      completed,
-      level.challenges.length - 1
-    );
+  if (!level) {
+    console.warn("setCurrentLevel: level not found", levelId);
+    return false;
   }
+  const completed = state.completedChallenges[levelId] || 0;
+  state.currentChallengeIndex = Math.min(
+    completed,
+    Math.max(level.challenges.length - 1, 0)
+  );
   saveState();
+  return true;
 }
 
+// Unlocks a given level ID once.
 function unlockLevel(levelId) {
   if (!state.unlockedLevels.includes(levelId)) {
     state.unlockedLevels.push(levelId);
@@ -93,15 +103,15 @@ function completeCurrentChallenge() {
   const level = getLevelById(state.currentLevelId);
   if (!level) return { levelComplete: false, total: 0, completed: 0 };
 
-  const total = level.challenges.length;
+  const total = Array.isArray(level.challenges) ? level.challenges.length : 0;
   const currentCompleted = state.completedChallenges[level.id] || 0;
   const newCompleted = Math.min(total, currentCompleted + 1);
 
   state.completedChallenges[level.id] = newCompleted;
-  state.currentChallengeIndex = Math.min(newCompleted, total - 1);
+  state.currentChallengeIndex = Math.min(newCompleted, Math.max(total - 1, 0));
 
   let levelJustCompleted = false;
-  if (newCompleted >= total && currentCompleted < total) {
+  if (total > 0 && newCompleted >= total && currentCompleted < total) {
     levelJustCompleted = markLevelCompleted(level.id);
   }
 
@@ -116,10 +126,15 @@ function completeCurrentChallenge() {
   return { levelComplete: levelJustCompleted, total, completed: newCompleted };
 }
 
+// Unlocks the next level when this level is completed.
 function markLevelCompleted(levelId) {
   const levels = getAllLevels();
   const idx = levels.findIndex((lvl) => Number(lvl.id) === Number(levelId));
-  if (idx >= 0 && idx < levels.length - 1) {
+  if (idx === -1) {
+    console.warn("markLevelCompleted: level not found", levelId);
+    return false;
+  }
+  if (idx < levels.length - 1) {
     unlockLevel(levels[idx + 1].id);
   }
   checkStickersForProgress();
@@ -127,6 +142,7 @@ function markLevelCompleted(levelId) {
   return true;
 }
 
+// Adds sticker if not already unlocked and notes the last-earned.
 function unlockSticker(stickerId) {
   if (!state.stickersUnlocked.includes(stickerId)) {
     state.stickersUnlocked.push(stickerId);
@@ -134,6 +150,7 @@ function unlockSticker(stickerId) {
   }
 }
 
+// Counts how many levels are fully completed.
 function getLevelsCompletedCount() {
   return getAllLevels().filter((lvl) => {
     const done = state.completedChallenges[lvl.id] || 0;
@@ -152,12 +169,14 @@ function checkStickersForProgress() {
   if (levelsDone >= 10) unlockSticker("levels-10");
 }
 
+// Adds a new custom level and ensures it is unlocked.
 function addCustomLevel(level) {
   state.customLevels.push(level);
   unlockLevel(level.id);
   saveState();
 }
 
+// Adds a custom sticker and unlocks it immediately.
 function addCustomSticker(sticker) {
   state.customStickers.push(sticker);
   unlockSticker(sticker.id);

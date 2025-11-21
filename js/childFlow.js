@@ -14,6 +14,8 @@ function initChildFlow() {
   const celebrationHome = document.getElementById("btn-celebration-home");
   const stickersHome = document.getElementById("btn-stickers-home");
 
+  if (!startBtn || !stickersBtn || !settingsBtn) return;
+
   startBtn.addEventListener("click", () => {
     renderLevels();
     showScreen("levels-screen");
@@ -51,14 +53,16 @@ function initChildFlow() {
     showScreen("celebration-screen");
   });
 
+  // Steps through challenge flow or advances to next unlocked level.
   nextBtn.addEventListener("click", () => {
     const level = getLevelById(state.currentLevelId);
     if (!level) {
       showScreen("levels-screen");
       return;
     }
+    const totalChallenges = Array.isArray(level.challenges) ? level.challenges.length : 0;
     const completed = state.completedChallenges[level.id] || 0;
-    if (completed >= level.challenges.length) {
+    if (totalChallenges > 0 && completed >= totalChallenges) {
       // Move to next unlocked level or back to list.
       const levels = getAllLevels();
       const idx = levels.findIndex((l) => Number(l.id) === Number(level.id));
