@@ -1,0 +1,53 @@
+/* Parent-facing styling */
+#settings-screen,
+#parent-dashboard-screen,
+#create-level-screen,
+#create-sticker-screen {
+  background: var(--color-parent-bg);
+  border-radius: var(--radius-large);
+  padding: 16px;
+}
+
+.settings-card {
+  max-width: 480px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-card h3 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.chart-card {
+  margin-bottom: 16px;
+}
+
+.bar {
+  background: linear-gradient(180deg, #8ec5ff, #d6e9ff);
+  border: 1px solid #d1e7ff;
+}
+
+.form-card {
+  max-width: 520px;
+}
+
+.btn-secondary {
+  color: #1f2933;
+}
+
+.settings-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#settings-screen h2,
+#parent-dashboard-screen h2 {
+  color: #1f2933;
+}

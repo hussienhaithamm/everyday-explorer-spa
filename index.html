@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Everyday Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/child.css" />
+  <link rel="stylesheet" href="css/parent.css" />
+</head>
+<body>
+  <main id="app">
+    <!-- Home -->
+    <section id="home-screen" class="screen">
+      <div class="home-hero">
+        <div>
+          <p class="eyebrow">Hello, Celia!</p>
+          <h1>Everyday Explorer</h1>
+          <p class="subtitle">Find colors, shapes, and little treasures around you.</p>
+          <div class="home-actions">
+            <button id="btn-start-exploring" class="btn btn-primary btn-big">
+              <span aria-hidden="true">🚀</span> Start Exploring
+            </button>
+            <button id="btn-my-stickers" class="btn btn-secondary btn-big">
+              <span aria-hidden="true">🧡</span> My Stickers
+            </button>
+            <button id="btn-settings" class="btn btn-ghost btn-big">
+              <span aria-hidden="true">⚙️</span> Settings (Parent)
+            </button>
+          </div>
+        </div>
+        <div class="home-illustration" aria-hidden="true">
+          <div class="bubble bubble-1"></div>
+          <div class="bubble bubble-2"></div>
+          <div class="bubble bubble-3"></div>
+          <div class="floating-card">
+            <span class="icon">📷</span>
+            <p>Find something red!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Levels -->
+    <section id="levels-screen" class="screen hidden">
+      <header class="topbar">
+        <button id="btn-levels-home" class="icon-btn" aria-label="Back to home">← Home</button>
+        <h2>Choose a Level</h2>
+      </header>
+      <div id="levels-list" class="levels-grid"></div>
+    </section>
+
+    <!-- Challenge -->
+    <section id="challenge-screen" class="screen hidden">
+      <header class="topbar">
+        <button id="btn-challenge-home" class="icon-btn" aria-label="Back to home">← Home</button>
+        <div class="progress-bar">
+          <div id="challenge-progress-bar" class="progress-fill" style="width:0%;"></div>
+        </div>
+      </header>
+      <div class="challenge-card">
+        <p id="challenge-level-name" class="eyebrow">Level</p>
+        <h2 id="challenge-prompt">Prompt</h2>
+        <p id="challenge-progress" class="muted">1 / 5</p>
+        <div class="challenge-actions">
+          <button id="btn-take-photo" class="btn btn-primary btn-big"><span aria-hidden="true">📷</span> Take Photo</button>
+          <button id="btn-done" class="btn btn-secondary btn-big">Done</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Camera -->
+    <section id="camera-screen" class="screen hidden">
+      <header class="topbar">
+        <button id="btn-camera-back" class="icon-btn" aria-label="Back to challenge">← Back</button>
+        <button id="btn-camera-home" class="icon-btn" aria-label="Back to home">🏠 Home</button>
+        <h2>Mock Camera</h2>
+      </header>
+      <div class="camera-wrap">
+        <div class="camera-frame" aria-label="Camera preview"></div>
+        <button id="btn-capture" class="btn btn-primary btn-big"><span aria-hidden="true">📸</span> Capture</button>
+      </div>
+    </section>
+
+    <!-- Celebration -->
+    <section id="celebration-screen" class="screen hidden">
+      <div class="confetti"></div>
+      <div class="celebration-card">
+        <p class="eyebrow">Hooray!</p>
+        <h2 id="celebration-title">Well Done!</h2>
+        <p id="celebration-detail" class="muted">Challenge complete</p>
+        <p id="celebration-sticker" class="badge badge-glow hidden"></p>
+        <div class="celebration-actions">
+          <button id="btn-next-challenge" class="btn btn-primary btn-big">Next</button>
+          <button id="btn-celebration-home" class="btn btn-ghost btn-big">Home</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stickers -->
+    <section id="stickers-screen" class="screen hidden">
+      <header class="topbar">
+        <button id="btn-stickers-home" class="icon-btn" aria-label="Back to home">← Home</button>
+        <h2>My Stickers</h2>
+      </header>
+      <div id="stickers-grid" class="stickers-grid"></div>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings-screen" class="screen hidden">
+      <header class="topbar">
+        <button id="btn-settings-home" class="icon-btn" aria-label="Back to home">← Home</button>
+        <h2>Parent Settings</h2>
+      </header>
+      <div class="card settings-card">
+        <label for="volume-slider">Volume</label>
+        <input id="volume-slider" type="range" min="0" max="100" value="50" />
+        <p class="muted">Value: <span id="volume-value">50</span>%</p>
+        <div class="settings-actions">
+          <button id="btn-dashboard" class="btn btn-secondary">Dashboard</button>
+          <button id="btn-create-level" class="btn btn-secondary">Create Level</button>
+          <button id="btn-create-sticker" class="btn btn-secondary">Create Sticker</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Parent dashboard -->
+    <section id="parent-dashboard-screen" class="screen hidden">
+      <header class="topbar">
+        <button id="btn-dashboard-back" class="icon-btn" aria-label="Back to settings">← Back</button>
+        <button id="btn-dashboard-home" class="icon-btn" aria-label="Back to home">🏠 Home</button>
+        <h2>Parent Dashboard</h2>
+      </header>
+      <div class="dashboard-grid">
+        <div class="card stat-card">
+          <p class="muted">Total Challenges</p>
+          <h3 id="dash-total-challenges">0</h3>
+        </div>
+        <div class="card stat-card">
+          <p class="muted">Levels Completed</p>
+          <h3 id="dash-levels-completed">0</h3>
+        </div>
+        <div class="card stat-card">
+          <p class="muted">Current Streak</p>
+          <h3 id="dash-streak">0 days</h3>
+        </div>
+      </div>
+      <div class="card chart-card">
+        <h4>Challenges per Level</h4>
+        <div id="bar-chart" class="bar-chart"></div>
+      </div>
+      <div class="card">
+        <h4>Recent Activity</h4>
+        <ul id="recent-activity" class="activity-list"></ul>
+      </div>
+    </section>
+
+    <!-- Create level -->
+    <section id="create-level-screen" class="screen hidden">
+      <header class="topbar">
+        <button id="btn-level-back" class="icon-btn" aria-label="Back to settings">← Back</button>
+        <button id="btn-level-home" class="icon-btn" aria-label="Back to home">🏠 Home</button>
+        <h2>Create Level</h2>
+      </header>
+      <form id="form-create-level" class="card form-card">
+        <label for="level-challenge">Challenge description</label>
+        <input id="level-challenge" required placeholder="Find something shiny" />
+        <p id="level-warning" class="warning hidden">Please add a challenge description.</p>
+        <label for="level-category">Category</label>
+        <select id="level-category">
+          <option>Colors</option>
+          <option>Shapes</option>
+          <option>Objects</option>
+        </select>
+        <label for="level-difficulty">Difficulty</label>
+        <select id="level-difficulty">
+          <option>Easy</option>
+          <option>Medium</option>
+          <option>Hard</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Save Level</button>
+        <p id="level-success" class="success hidden">Saved! Added to levels.</p>
+        <button type="button" id="btn-level-back-settings" class="btn btn-ghost">Back to Settings</button>
+      </form>
+    </section>
+
+    <!-- Create sticker -->
+    <section id="create-sticker-screen" class="screen hidden">
+      <header class="topbar">
+        <button id="btn-sticker-back" class="icon-btn" aria-label="Back to settings">← Back</button>
+        <button id="btn-sticker-home" class="icon-btn" aria-label="Back to home">🏠 Home</button>
+        <h2>Create Sticker</h2>
+      </header>
+      <form id="form-create-sticker" class="card form-card">
+        <label for="sticker-name">Sticker name</label>
+        <input id="sticker-name" required placeholder="Super Helper" />
+        <p id="sticker-warning" class="warning hidden">Please enter a sticker name.</p>
+        <label for="sticker-icon">Icon</label>
+        <select id="sticker-icon">
+          <option>⭐</option>
+          <option>🧡</option>
+          <option>🏆</option>
+          <option>🐯</option>
+        </select>
+        <label for="sticker-color">Color</label>
+        <input id="sticker-color" type="color" value="#ffb84d" />
+        <button type="submit" class="btn btn-primary">Save Sticker</button>
+        <p id="sticker-success" class="success hidden">Sticker added!</p>
+        <button type="button" id="btn-sticker-back-settings" class="btn btn-ghost">Back to Settings</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/childFlow.js"></script>
+  <script src="js/parentFlow.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

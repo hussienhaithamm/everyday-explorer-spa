@@ -1,0 +1,78 @@
+/* Child-facing styling */
+#home-screen,
+#levels-screen,
+#challenge-screen,
+#camera-screen,
+#celebration-screen,
+#stickers-screen {
+  background: transparent;
+}
+
+.level-card {
+  background: linear-gradient(145deg, #ffe7cf, #fff);
+  border: 3px solid rgba(255, 123, 95, 0.15);
+}
+
+.level-card .badge {
+  background: rgba(109, 211, 255, 0.2);
+  color: #0ea5e9;
+}
+
+.challenge-card h2 {
+  font-size: 1.8rem;
+}
+
+.btn-primary {
+  box-shadow: 0 12px 24px rgba(255, 123, 95, 0.25);
+}
+
+.btn-big {
+  font-size: 1.15rem;
+  letter-spacing: 0.2px;
+}
+
+.sticker.unlocked {
+  background: radial-gradient(circle at 30% 30%, #fff, #ffe3f1);
+  border-color: #ff7b5f;
+  box-shadow: 0 0 0 5px rgba(255, 123, 95, 0.25);
+}
+
+.sticker .label {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.celebration-card {
+  background: linear-gradient(180deg, #fff, #fff9f0);
+}
+
+.celebration-card h2 {
+  font-size: 2rem;
+  animation: pop 0.8s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.sticker.just-unlocked {
+  animation: sticker-pop 0.9s ease;
+}
+
+@keyframes sticker-pop {
+  0% { transform: scale(0.6) rotate(-4deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.camera-frame {
+  animation: gentle 3s ease-in-out infinite;
+}
+
+@keyframes gentle {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
